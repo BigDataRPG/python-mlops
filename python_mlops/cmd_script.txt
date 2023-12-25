@@ -1,0 +1,12 @@
+### Automation part
+## Argparse
+python automate_01.py --names boyd,aoyd,coyd
+python automate_01.py --names boyd,aoyd,coyd --sorted
+
+## Click
+python automate_02.py --names=boyd,aoyd,coyd
+python automate_02.py --names=boyd,aoyd,coyd --sorted
+
+
+### Flask API
+curl -X POST -H "Content-Type: application/json" -d '{"text": "Test model"}' http://localhost:5000/generate
