@@ -2,7 +2,7 @@ import sys
 import argparse
 
 
-def main(names, sorted=False):
+def main(names: str, sorted=False):
     
     name_ls = names.split(",")
     print(name_ls)

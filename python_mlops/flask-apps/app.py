@@ -18,7 +18,7 @@ def first_page():
 
 @app.route('/error')
 def error():
-    abort(500, "Oops! Something went wrong...")
+    abort(404, "Oops! Something went wrong...")
     
     
 @app.route('/generate', methods=['POST'])
@@ -31,6 +31,10 @@ def generate_text():
 
         # Use the GPT-2 model to generate text
         generated_text = generator(input_text, max_length=35, num_return_sequences=1)[0]['generated_text']
+        def save_quesetion_andanswer(question=input_text , answer=generated_text):
+            with open('question_answer.txt', 'a') as f:
+                f.write(question + '\n')
+                f.write(answer + '\n\n')
 
         return jsonify({"input_text": input_text, "generated_text": generated_text})
 

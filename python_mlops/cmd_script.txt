@@ -1,12 +1,18 @@
 ### Automation part
 ## Argparse
-python automate_01.py --names boyd,aoyd,coyd
-python automate_01.py --names boyd,aoyd,coyd --sorted
+python automate_01.py --names sato,ning,yusuf,boyd
+python automate_01.py --names sato,ning,yusuf,boyd --sorted
 
 ## Click
-python automate_02.py --names=boyd,aoyd,coyd
-python automate_02.py --names=boyd,aoyd,coyd --sorted
+python automate_02.py --names=sato,ning,yusuf,boyd
+python automate_02.py --names=sato,ning,yusuf,boyd --sorted
 
 
 ### Flask API
-curl -X POST -H "Content-Type: application/json" -d '{"text": "Test model"}' http://localhost:5000/generate
+curl -X POST -H "Content-Type: application/json" -d '{"text": "Can you write down some myth"}' http://localhost:5000/generate
+
+
+### General protocol for calling API 
+GET 
+POST
+
