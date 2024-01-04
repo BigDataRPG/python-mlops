@@ -1,7 +1,10 @@
 from flask import Flask, abort, jsonify, request
 from transformers import pipeline
 from pydantic import BaseModel
+import asyncio
 
+MAX_USERS = 1300
+semaphore = asyncio.Semaphore(MAX_USERS)
 
 generator = pipeline('text-generation', model='gpt2')
 
@@ -21,6 +24,18 @@ def error():
     abort(404, "Oops! Something went wrong...")
     
     
+async def generate_text_async(input_text):
+    async with semaphore:
+        try:
+            if not input_text:
+                return {"input_text": "", "generated_text": "Input text is empty"}
+            else:
+                generated_text = generator(input_text, max_length=100, num_return_sequences=1)[0]['generated_text']
+                return {"input_text": input_text, "generated_text": generated_text}
+        except Exception as e:
+            return {"input_text": input_text, "generated_text": str(e)}
+
+
 @app.route('/generate', methods=['POST'])
 def generate_text():
     try:
@@ -29,14 +44,14 @@ def generate_text():
         if not input_text:
             return jsonify({"error": "Please provide text input"}), 400
 
-        # Use the GPT-2 model to generate text
-        generated_text = generator(input_text, max_length=100, num_return_sequences=1)[0]['generated_text']
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        generated_text = loop.run_until_complete(generate_text_async(input_text))
 
         return jsonify({"input_text": input_text, "generated_text": generated_text})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -9,7 +9,7 @@ python automate_02.py --names=sato,ning,yusuf,boyd --sorted
 
 
 ### Flask API
-curl -X POST -H "Content-Type: application/json" -d '{"text": "Can you write down some myth"}' http://localhost:5000/generate
+curl -X POST -H "Content-Type: application/json" -d '{"text": "Generate D&D Story"}' http://localhost:5000/generate
 
 
 ### General protocol for calling API 
